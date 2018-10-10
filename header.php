@@ -20,7 +20,7 @@
 				<form method="POST" action="Search.php">
 					<div class="input-group input-inline">
 						<input class="form-input" placeholder="search" type="text" name="search">
-						<button><i class="icon icon-search">
+						<button class="btn btn-action btn-primary"><i class="icon icon-search">
 						<input type="submit"></i></button>
 					</div>
 				</form>
