@@ -1,6 +1,7 @@
 <?php
 include('header.php');
-
+if (isset($_SESSION['pseudo']))
+	header('Location: signout.php');
 ?>
 		<div class="container">
 		<div class="columns"><div class="column">
@@ -32,19 +33,19 @@ if (isset($_GET['error']))
 		<div class="divider-vert" data-content="OU"></div>
 		<div class="column">
 		<h2> S'inscrire </h2>
-		<form method="post" action="signup.php">
+		<form method="POST" action="signup.php">
 			<div class="form-group">
 			<label class="form-label" for="e-mail2">e-mail</label>
-			<input class="form-input" type="email" id="e-mail2" placeholder="email@example.com" oninput="check_exist(this,'email')"  required>
+			<input name="email" class="form-input" type="email" id="e-mail2" placeholder="email@example.com" oninput="check_exist(this,'email')"  required>
 			</div>
 			<div class="form-group">
 			<label class="form-label" for="pseudo">pseudo</label>
-			<input class="form-input" type="text" id="pseudo" placeholder="pseudo" oninput="check_exist(this, 'pseudo')" required>
+			<input name="pseudo" class="form-input" type="text" id="pseudo" placeholder="pseudo" oninput="check_exist(this, 'pseudo')" required>
 			</div>
 
 			<div class="form-group">
 			<label class="form-label" for="password2">password</label>
-			<input class="form-input" type="password" id="password2" placeholder="password" name="password"
+			<input name="password" class="form-input" type="password" id="password2" placeholder="password" name="password"
 			pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one 
 			uppercase and lowercase letter, and at least 8 or more characters" required>
 			</div>

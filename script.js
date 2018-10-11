@@ -19,3 +19,8 @@ function check(input) {
 		input.setCustomValidity('');
 	}
 }
+
+function close_modal(id){
+	console.log("test");
+	document.getElementById(id).className = "modal";
+}
