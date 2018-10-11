@@ -1,31 +1,28 @@
 <?php
 include('header.php');
-?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Camagru</title>
-		<meta name="description" content="">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-		<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-	</head>
-	<body>
+?>
 		<div class="container">
 		<div class="columns"><div class="column">
+<?php
+if (isset($_GET['error']))
+{
+	echo "<div class=\"toast toast-error\">
+		<button class=\"btn btn-clear float-right\" onclick=\"this.parentNode.parentNode.removeChild(this.parentNode);\">
+		</button>
+		Wrong email or password
+		</div>";
+}
+?>
 		<h2> Se connecter </h2>
-		<form method="post" action="connect.php">
+		<form method="POST" action="signin.php">
 			<div class="form-group">
 			<label class="form-label" for="e-mail1">e-mail</label>
-			<input class="form-input" type="email" id="e-mail1" placeholder="email@example.com" required>
+			<input class="form-input" name="email" type="email" id="e-mail1" placeholder="email@example.com" required>
 			</div>
-
 			<div class="form-group">
 			<label class="form-label" for="password1">password</label>
-			<input class="form-input" type="password" id="password1" placeholder="password" required>
+			<input class="form-input" name="password" type="password" id="password1" placeholder="password" required>
 			</div>
 			<div class="form-group">
 			<button type="submit" class="btn btn-primary">Sign-in</button>
@@ -35,11 +32,16 @@ include('header.php');
 		<div class="divider-vert" data-content="OU"></div>
 		<div class="column">
 		<h2> S'inscrire </h2>
-		<form method="post" action="create_account.php">
+		<form method="post" action="signup.php">
 			<div class="form-group">
 			<label class="form-label" for="e-mail2">e-mail</label>
-			<input class="form-input" type="email" id="e-mail2" placeholder="email@example.com" required>
+			<input class="form-input" type="email" id="e-mail2" placeholder="email@example.com" oninput="check_exist(this,'email')"  required>
 			</div>
+			<div class="form-group">
+			<label class="form-label" for="pseudo">pseudo</label>
+			<input class="form-input" type="text" id="pseudo" placeholder="pseudo" oninput="check_exist(this, 'pseudo')" required>
+			</div>
+
 			<div class="form-group">
 			<label class="form-label" for="password2">password</label>
 			<input class="form-input" type="password" id="password2" placeholder="password" name="password"
@@ -49,15 +51,16 @@ include('header.php');
 			<div class="form-group">
 			<label class="form-label" for="conf">confirm password</label>
 			<input class="form-input" type="password" id="conf" placeholder="password" oninput="check(this)" required>
-			<script language='javascript' type='text/javascript'>
-			 function check(input) {
-				if (input.value != document.getElementById('password2').value) {
-					input.setCustomValidity('Password Must be Matching.');
-				} else {
-					input.setCustomValidity('');
-				}
-			 }
-			</script>
+<script language='javascript' type='text/javascript'>
+
+function check(input) {
+	if (input.value != document.getElementById('password2').value) {
+		input.setCustomValidity('Password Must be Matching.');
+	} else {
+		input.setCustomValidity('');
+	}
+}
+</script>
 			</div>
 			<div class="form-group">
 			<button type="submit" class="btn btn-primary">Sign-up</button>
