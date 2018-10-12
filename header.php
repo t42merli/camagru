@@ -36,7 +36,7 @@ margin:10px;
 						<input class="form-input" placeholder="search" type="text" name="search">
 						<button class="btn btn-action btn-primary"><i class="icon icon-search">
 						<input type="submit"></i></button>
-					</div>
+					</div> 
 				</form>
 			</section>
 			<section class="navbar-center">

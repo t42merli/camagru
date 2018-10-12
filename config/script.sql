@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 10, 2018 at 05:36 AM
+-- Generation Time: Oct 12, 2018 at 10:39 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.1.22
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `camagrutest`
+-- Database: `camagru`
 --
 
 -- --------------------------------------------------------
@@ -42,9 +42,8 @@ CREATE TABLE `comments` (
 --
 
 CREATE TABLE `likes` (
-  `like_id` int(11) NOT NULL,
-  `post` int(11) DEFAULT NULL,
-  `user` int(11) DEFAULT NULL
+  `post` int(11) NOT NULL,
+  `user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -56,7 +55,10 @@ CREATE TABLE `likes` (
 CREATE TABLE `post` (
   `post_id` int(11) NOT NULL,
   `user` int(11) NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `pic` longtext NOT NULL,
+  `text` text NOT NULL,
+  `user_pseudo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -68,10 +70,16 @@ CREATE TABLE `post` (
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `pseudo` varchar(255) NOT NULL,
-  `passwd` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `notif` tinyint(1) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `email_confirmed` tinyint(1) NOT NULL,
+  `email_link` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `comments`
@@ -84,7 +92,7 @@ ALTER TABLE `comments`
 -- Indexes for table `likes`
 --
 ALTER TABLE `likes`
-  ADD PRIMARY KEY (`like_id`),
+  ADD PRIMARY KEY (`post`,`user`),
   ADD KEY `post` (`post`),
   ADD KEY `user` (`user`);
 
@@ -93,14 +101,17 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`post_id`),
-  ADD KEY `user` (`user`);
+  ADD KEY `user` (`user`),
+  ADD KEY `user_pseudo` (`user_pseudo`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `pseudo` (`pseudo`);
+  ADD UNIQUE KEY `pseudo` (`pseudo`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `email_link` (`email_link`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -110,13 +121,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -134,12 +145,6 @@ ALTER TABLE `comments`
 ALTER TABLE `likes`
   ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`post`) REFERENCES `post` (`post_id`),
   ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `post`
---
-ALTER TABLE `post`
-  ADD CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

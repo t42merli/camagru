@@ -18,9 +18,13 @@ while ($res = $req->fetch())
 }
 $req = requ_db("INSERT INTO `users` (`pseudo`, `password`, `notif`, `email`, `email_confirmed`, `email_link`)
 	VALUES (?, ?, '1', ?, '0', ?)");
-$req = $req->execute(array($_POST['pseudo'], hash('whirlpool', $_POST['password']), $_POST['email'], 
+$req->execute(array($_POST['pseudo'], hash('whirlpool', $_POST['password']), $_POST['email'], 
 	$email_link));
+$req = requ_db("SELECT id FROM users WHERE pseudo = ?");
+$req->execute(array($_POST['pseudo']));
+$id = $req->fetch();
 $_SESSION['pseudo'] = $_POST['pseudo'];
+$_SESSION['id'] = $id['id'];
 mail($_POST['email'], "Confirmation mail Camagru", "Veuillez confirmez votre adresse email en cliquant sur le lien ci dessous
 	lien: 127.0.0.1:8080/camagru/confirm_mail.php?mail=".$email_link);
 header('Location: index.php');
