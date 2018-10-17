@@ -24,3 +24,29 @@ function close_modal(id){
 	console.log("test");
 	document.getElementById(id).className = "modal";
 }
+
+function like(button, post_id, user){
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			button.innerHTML = "UNLIKE";
+			button.setAttribute("onclick", "unlike(this,"+ post_id + ","+user+")");
+			document.getElementById("nb_likes"+post_id).innerHTML = this.responseText;
+		}
+	}
+	xmlhttp.open("GET", "like.php?post=" + post_id+ "&user="+user, true);
+	xmlhttp.send();
+}
+
+function unlike(button, post_id, user){
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			button.innerHTML = "LIKE";
+			button.setAttribute("onclick", "like(this,"+ post_id + ","+user+")");
+			document.getElementById("nb_likes"+post_id).innerHTML = this.responseText;
+		}
+	}
+	xmlhttp.open("GET", "unlike.php?post=" + post_id+ "&user="+user, true);
+	xmlhttp.send();
+}

@@ -52,16 +52,6 @@ if (isset($_GET['error']))
 			<div class="form-group">
 			<label class="form-label" for="conf">confirm password</label>
 			<input class="form-input" type="password" id="conf" placeholder="password" oninput="check(this)" required>
-<script language='javascript' type='text/javascript'>
-
-function check(input) {
-	if (input.value != document.getElementById('password2').value) {
-		input.setCustomValidity('Password Must be Matching.');
-	} else {
-		input.setCustomValidity('');
-	}
-}
-</script>
 			</div>
 			<div class="form-group">
 			<button type="submit" class="btn btn-primary">Sign-up</button>
