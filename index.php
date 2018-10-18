@@ -1,71 +1,32 @@
 <?php
 include('header.php');
 ?>
-
 <div class="container">
 <div class="columns">
-    <div class="column col-8 col-mx-auto">
+    <div id="post" class="column col-8 col-mx-auto">
 <?php
-$req = requ_db("SELECT * FROM post ORDER BY `date` DESC");
-$req->execute();
-function show_post($req){
-    $i = 0;
-    while ($i < 10 && $res = $req->fetch())
-    {
-        echo '
-            <div class="card" style="margin-bottom:10px">
-                <div class="card-header">
-                    <div class="card-title h5">'.$res['user_pseudo'].'</div>
-                </div>
-                <div class="card-body">'.$res['text'].'</div>
-                <div class="card-image">
-                    <a href="post.php?post='.$res['post_id'].'"><img class="img-responsive" src="'.$res['pic'].'"></a>
-                </div>
-                <div class="container" id="nb_likes'.$res['post_id'].'">';
-                $nb_likes = requ_db("SELECT COUNT(*) FROM likes WHERE post = ?");
-                $nb_likes->execute(array($res['post_id']));
-                $nb_likes = $nb_likes->fetch();
-                echo $nb_likes[0].' like(s)</div>
-                <div class="card-footer">
-                <div class="columns">
-                <div class="column col-2">';
-                if(isset($_SESSION['id']))
-                {
-                    $like = requ_db("SELECT * from likes WHERE user = ? AND post = ?");
-                    $like->execute(array($_SESSION['id'], $res['post_id']));
-                    if($like->fetch())
-                    {
-                        echo '<button onClick="unlike(this, '.$res['post_id'].','.$_SESSION['id'].')" class="btn btn-primary">UNLIKE</button>';
-                    }
-                    else
-                    {
-                    echo'
-                        <button onClick="like(this, '.$res['post_id'].','.$_SESSION['id'].')" class="btn btn-primary">LIKE</button>';
-                    }
-                }
-                else
-                {
-                    echo'
-                    <a href="connexion.php"><button class="btn btn-primary">LIKE</button></a>';
-                }
-                echo'
-                    </div> 
-                    <div class="column col-8">
-                        <input class="form-input" type="text" id="comment'.$res['post_id'].'">
-                    </div>
-                    <div class="column col-2">
-                        <button class="btn btn-primary input-group-btn" onClick="comment()">
-                        <i class="icon icon-message"></i>
-                        </button>
-                    </div>
-                    </div>
-                 </div>
-                 </div>';
-        $i++;
+$_SESSION['post_date'] =  "2999-01-01 00:00:00";
+include('get_post.php');
+?>
+<script language="javascript" type="text/javascript">
+
+window.onscroll = function(ev) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        var loading = document.getElementById('loading');
+        loading.style.display = "";
+        var xmlhttp = new XMLHttpRequest();
+	    xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+			    document.getElementById('post').innerHTML += this.responseText;
+		    }
+        }
+        xmlhttp.open("GET", "get_post.php", true);
+        xmlhttp.send();
+        loading.style.display = "none";
     }
 }
-show_post($req);
-?>
-    </div>
+</script>
+ </div>
 </div>
+<div id="loading" class="loading loading-lg" style="display:none"></div>
 </div>

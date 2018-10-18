@@ -2,11 +2,15 @@
 session_start();
 if($_POST['img'] == "")
 {
-	if($_FILES['upload']['type'] == "image/png")
-		$img1 = imagecreatefrompng($_FILES['upload']['tmp_name']);
-	else
-	$img1 = imagecreatefromjpeg($_FILES['upload']['tmp_name']);
 	$size1 = getimagesize($_FILES['upload']['tmp_name']);
+	if($_FILES['upload']['type'] == "image/png")
+	{
+		$img1 = imagecreatefrompng($_FILES['upload']['tmp_name']);
+		imagesavealpha( $img1, true );
+	}
+	else
+		$img1 = imagecreatefromjpeg($_FILES['upload']['tmp_name']);
+	
 }
 else
 {

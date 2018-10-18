@@ -21,7 +21,6 @@ function check(input) {
 }
 
 function close_modal(id){
-	console.log("test");
 	document.getElementById(id).className = "modal";
 }
 
@@ -49,4 +48,22 @@ function unlike(button, post_id, user){
 	}
 	xmlhttp.open("GET", "unlike.php?post=" + post_id+ "&user="+user, true);
 	xmlhttp.send();
+}
+
+function comment(post_id, user){
+	var comment = document.getElementById('comment'+post_id);
+	if(comment.value == "")
+	{	
+		comment.setCustomValidity('remplir le commentaire avant de poster');
+		return;
+	}
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById('toast' + post_id).style.display = "";
+		}
+	}
+	xmlhttp.open("GET", "comment.php?post=" + post_id+ "&user="+user+"&comment="+comment.value, true);
+	xmlhttp.send();
+	comment.value = "";
 }

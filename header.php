@@ -16,27 +16,19 @@ include('db.php');
 <script language='javascript' type="text/javascript" src="script.js"></script>
 <style>
 header{
-margin-left:10px;
+margin-left:15px;
 margin-right:40px;
-}
-header form{
-margin:10px;
 }
 </style>
 	</head>
 	<body>
-		<header class="navbar">
+		<header class="navbar" style="background-color:white;  position: fixed;  top: 0;  width: 96%">
 			<section class="navbar-section">
 				<a href="index.php" class="btn btn-link tooltip tooltip-bottom" data-tooltip="Acceuil">
 					<img src="home.svg" width="32px" alt="Acceuil" ></a>
 				<a href="photo.php"class="btn btn-link tooltip tooltip-bottom" data-tooltip="Prendre une photo"i>
 					<img src="camera.svg" width="32px" alt="Pendre une photo"></a>
 				<form method="POST" action="Search.php">
-					<div class="input-group input-inline">
-						<input class="form-input" placeholder="search" type="text" name="search">
-						<button type="submit" class="btn btn-action btn-primary"><i class="icon icon-search">
-						</i></button>
-					</div> 
 				</form>
 			</section>
 			<section class="navbar-center">
@@ -64,7 +56,7 @@ margin:10px;
 			</div>
 			</section>
 		</header>
-		<hr>
+		<div style="margin-bottom:50px"></div>
 <?php 
 if (isset($_SESSION['pseudo'])){
 	$res = requ_db("SELECT email_confirmed FROM users WHERE pseudo = ?");
